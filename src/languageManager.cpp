@@ -1,6 +1,11 @@
 #include "languageManager.h"
 #include "preferenceManager.h"
 
+
+// These functions are necessary for translating text into GUI.
+// They are largely duplicated "PreferencesManager".
+// 
+
 std::unordered_map<string, string> LanguageManager::vocabulary;
 
 string LanguageManager::get(string key)

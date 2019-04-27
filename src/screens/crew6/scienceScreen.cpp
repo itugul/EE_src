@@ -102,7 +102,8 @@ ScienceScreen::ScienceScreen(GuiContainer* owner, ECrewPosition crew_position)
     info_faction->setSize(GuiElement::GuiSizeMax, 30);
     info_type = new GuiKeyValueDisplay(info_sidebar, "SCIENCE_TYPE", 0.4, "Type", "");
     info_type->setSize(GuiElement::GuiSizeMax, 30);
-    info_type_button = new GuiButton(info_type, "SCIENCE_TYPE_BUTTON", "DB", [this]() {
+    info_type_button = new GuiButton(info_type, "SCIENCE_TYPE_BUTTON", "DB", [this]()
+    {
         P<SpaceShip> ship = targets.get();
         if (ship)
         {
@@ -209,6 +210,7 @@ ScienceScreen::ScienceScreen(GuiContainer* owner, ECrewPosition crew_position)
         radar_view->setVisible(index == 0);
         background_gradient->setVisible(index == 0);
         database_view->setVisible(index == 1);
+        my_spaceship->db_open = index;
     });
     view_mode_selection->setOptions({"Radar", "Database"})->setSelectionIndex(0)->setPosition(20, -20, ABottomLeft)->setSize(200, 100);
 

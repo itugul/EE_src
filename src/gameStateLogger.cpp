@@ -11,6 +11,7 @@
 #include "spaceObjects/blackHole.h"
 #include "spaceObjects/nebula.h"
 #include "spaceObjects/spaceship.h"
+#include "spaceObjects/scanProbe.h"
 
 class JSONGenerator
 {
@@ -273,6 +274,12 @@ void GameStateLogger::writeObjectEntry(JSONGenerator& json, P<SpaceObject> obj)
         if (station)
         {
             writeStationEntry(json, station);
+        }else{
+            P<ScanProbe> probe = obj;
+            if (probe)
+            {
+                json.write("probe_owner_id", probe->owner_id);
+            }
         }
     }
 }
@@ -281,7 +288,7 @@ void GameStateLogger::writeObjectEntry(JSONGenerator& json, P<SpaceObject> obj)
 void GameStateLogger::writeShipEntry(JSONGenerator& json, P<SpaceShip> ship)
 {
     bool has_beam_weapons = false;
-    
+
     json.write("callsign", ship->getCallSign());
     json.write("faction", ship->getFaction());
     json.write("ship_type", ship->type_name);
@@ -476,6 +483,31 @@ void GameStateLogger::writeShipEntry(JSONGenerator& json, P<SpaceShip> ship)
             json.write("beam_frequency", ship->beam_frequency);
         if (ship->beam_system_target != SYS_None)
             json.write("beam_system_target", getSystemName(ship->beam_system_target));
+    }
+    json.write("db_open", ship->db_open);
+    if (ship->scantarget_id > -1)
+    {
+        JSONGenerator scantarget = json.createDict("scan");
+        scantarget.write("scan_target_id", ship->scantarget_id);
+        ship->scantarget_id = -1;
+        scantarget.write("scan_state", ship->scantarget_state);
+        ship->scantarget_state = -1;
+    }
+    if (ship->waypoints.size() > 0)
+    {
+        json.startArray("waypoints");
+        // for(int n=0; n < int(ship->waypoints.size()); n++)
+        // {
+        //     JSONGenerator waypoint = json.arrayCreateDict();
+        //     if (ship->waypoints[n])
+        //     {
+        //         waypoint.startArray("position");
+        //         waypoint.arrayWrite(ship->waypoints[n][0]);
+        //         waypoint.arrayWrite(ship->waypoints[n][1]);
+        //         waypoint.endArray();
+        //     }
+        // }
+        json.endArray();
     }
 }
 

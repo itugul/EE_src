@@ -6,6 +6,7 @@
 #include "gameGlobalInfo.h"
 #include "languageManager.h"
 #include "main.h"
+#include "playerInfo.h"
 
 #include "scriptInterface.h"
 
@@ -1136,6 +1137,8 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
         if (scanning_target && scanning_complexity > 0)
         {
             scanning_target->scannedBy(this);
+            my_spaceship->scantarget_id = scanning_target->getMultiplayerId();
+            my_spaceship->scantarget_state = scanning_target->getScannedStateFor(my_spaceship);
             scanning_target = nullptr;
         }
         break;
@@ -1348,7 +1351,10 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
             sf::Vector2f position;
             packet >> position;
             if (waypoints.size() < 9)
+            {
                 waypoints.push_back(position);
+                my_spaceship->waypoints.push_back(position);
+            }
         }
         break;
     case CMD_REMOVE_WAYPOINT:
@@ -1356,7 +1362,10 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
             int32_t index;
             packet >> index;
             if (index >= 0 && index < int(waypoints.size()))
+            {
                 waypoints.erase(waypoints.begin() + index);
+                my_spaceship->waypoints.erase(waypoints.begin() + index);
+            }
         }
         break;
     case CMD_MOVE_WAYPOINT:
@@ -1365,7 +1374,10 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
             sf::Vector2f position;
             packet >> index >> position;
             if (index >= 0 && index < int(waypoints.size()))
+            {
                 waypoints[index] = position;
+                my_spaceship->waypoints[index] = position;
+            }
         }
         break;
     case CMD_ACTIVATE_SELF_DESTRUCT:

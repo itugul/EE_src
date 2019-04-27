@@ -116,6 +116,9 @@ SpaceShip::SpaceShip(string multiplayerClassName, float multiplayer_significant_
     impulse_acceleration = 20.0;
     energy_level = 1000;
     max_energy_level = 1000;
+    scantarget_id = -1;
+    scantarget_state = 0;
+    db_open = 0;
 
     registerMemberReplication(&target_rotation, 1.5);
     registerMemberReplication(&impulse_request, 0.1);
@@ -146,6 +149,8 @@ SpaceShip::SpaceShip(string multiplayerClassName, float multiplayer_significant_
     registerMemberReplication(&combat_maneuver_boost_speed);
     registerMemberReplication(&combat_maneuver_strafe_speed);
     registerMemberReplication(&radar_trace);
+    // registerMemberReplication(&scantarget_id);
+    // registerMemberReplication(&scantarget_state);
 
     for(int n=0; n<SYS_COUNT; n++)
     {

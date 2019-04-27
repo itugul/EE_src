@@ -76,7 +76,7 @@ GuiMissileTubeControls::GuiMissileTubeControls(GuiContainer* owner, string id)
             for(int idx = 0; idx < MW_Count; idx++)
                 load_type_rows[idx].button->setValue(idx == load_type);
         });
-        load_type_rows[n].button->setTextSize(28)->setSize(200, 40);
+        load_type_rows[n].button->setTextSize(28)->setSize(300, 40);
     }
     load_type_rows[MW_Homing].button->setIcon("gui/icons/weapon-homing.png");
     load_type_rows[MW_Mine].button->setIcon("gui/icons/weapon-mine.png");

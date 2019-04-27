@@ -163,6 +163,15 @@ public:
     /// MultiplayerObjectID of the targeted object, or -1 when no target is selected.
     int32_t target_id;
 
+    /// MultiplayerObjectID of the scanned object or -1 if there is no scan and the level of the scan performed.
+    int32_t scantarget_id;
+    int32_t scantarget_state;
+
+    // Open or not the database.
+    int32_t db_open;
+
+    std::vector<sf::Vector2f> waypoints;
+
     EDockingState docking_state;
     P<SpaceObject> docking_target; //Server only
     sf::Vector2f docking_offset; //Server only
