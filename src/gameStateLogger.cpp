@@ -12,6 +12,7 @@
 #include "spaceObjects/nebula.h"
 #include "spaceObjects/spaceship.h"
 #include "spaceObjects/scanProbe.h"
+#include "spaceObjects/missileWeapon.h"
 
 class JSONGenerator
 {
@@ -279,6 +280,18 @@ void GameStateLogger::writeObjectEntry(JSONGenerator& json, P<SpaceObject> obj)
             if (probe)
             {
                 json.write("probe_owner_id", probe->owner_id);
+            }else{
+                P<MissileWeapon> missile = obj;
+                if (missile)
+                {
+                    json.write("missile_owner_id", missile->owner->getMultiplayerId());
+                }else{
+                    P<Mine> mine = obj;
+                    if (mine)
+                    {
+                        json.write("missile_owner_id", mine->owner->getMultiplayerId());
+                    }
+                }
             }
         }
     }
