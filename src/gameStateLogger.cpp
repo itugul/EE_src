@@ -287,7 +287,7 @@ void GameStateLogger::writeObjectEntry(JSONGenerator& json, P<SpaceObject> obj)
                     json.write("missile_owner_id", missile->owner->getMultiplayerId());
                 }else{
                     P<Mine> mine = obj;
-                    if (mine)
+                    if (mine && mine->owner)
                     {
                         json.write("missile_owner_id", mine->owner->getMultiplayerId());
                     }
@@ -339,7 +339,7 @@ void GameStateLogger::writeShipEntry(JSONGenerator& json, P<SpaceShip> ship)
     if (ship->weapon_tube_count > 0)
     {
         json.startArray("tubes");
-        for(int n=0; n<ship->weapon_tube_count; n++)
+        for(int n = 0; n < ship->weapon_tube_count; n++)
         {
             JSONGenerator tube = json.arrayCreateDict();
             if (ship->weapon_tube[n].isEmpty())
@@ -425,6 +425,7 @@ void GameStateLogger::writeShipEntry(JSONGenerator& json, P<SpaceShip> ship)
     {
         JSONGenerator config = json.createDict("config");
         config.write("turn_speed", ship->turn_speed);
+        config.write("object_radius", ship->getRadius());
         config.write("impulse_speed", ship->impulse_max_speed);
         config.write("impulse_acceleration", ship->impulse_acceleration);
         config.write("hull", ship->hull_max);
@@ -497,15 +498,24 @@ void GameStateLogger::writeShipEntry(JSONGenerator& json, P<SpaceShip> ship)
         if (ship->beam_system_target != SYS_None)
             json.write("beam_system_target", getSystemName(ship->beam_system_target));
     }
-    json.write("db_open", ship->db_open);
-    if (ship->scantarget_id > -1)
+
+    P<PlayerSpaceship> p_ship = ship;
+    if (p_ship)
     {
-        JSONGenerator scantarget = json.createDict("scan");
-        scantarget.write("scan_target_id", ship->scantarget_id);
-        ship->scantarget_id = -1;
-        scantarget.write("scan_state", ship->scantarget_state);
-        ship->scantarget_state = -1;
+        json.write("reputation_points", p_ship->getReputationPoints());
+        JSONGenerator science = json.createDict("science");
+        science.write("db_open", p_ship->db_open);
+        if (p_ship->linked_science_probe_id)
+            science.write("science_probe_id", p_ship->linked_science_probe_id);  
+        if (p_ship->scantarget_id > -1)
+        {
+            science.write("scan_target_id", p_ship->scantarget_id);
+            p_ship->scantarget_id = -1;
+            science.write("scan_state", p_ship->scantarget_state);
+            p_ship->scantarget_state = -1;
+        }
     }
+
     if (ship->waypoints.size() > 0)
     {
         json.startArray("waypoints");
