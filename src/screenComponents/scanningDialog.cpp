@@ -63,7 +63,6 @@ void GuiScanningDialog::onDraw(sf::RenderTarget& window)
                 if (scan_depth >= my_spaceship->scanning_depth)
                 {
                     my_spaceship->commandScanDone();
-                    ///!!!
                     lock_start_time = engine->getElapsedTime() - 1.0f;
                 }else{
                     setupParameters();

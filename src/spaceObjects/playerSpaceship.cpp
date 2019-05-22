@@ -218,6 +218,8 @@ PlayerSpaceship::PlayerSpaceship()
     alert_level = AL_Normal;
     shields_active = false;
     control_code = "";
+    linked_science_probe_id = -1;
+
 
     setFactionId(1);
 
@@ -1126,6 +1128,7 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
             P<SpaceObject> obj = game_server->getObjectById(id);
             if (obj)
             {
+                scanning_status = true;
                 scanning_target = obj;
                 scanning_complexity = obj->scanningComplexity(this);
                 scanning_depth = obj->scanningChannelDepth(this);
@@ -1140,12 +1143,14 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
             my_spaceship->scantarget_id = scanning_target->getMultiplayerId();
             my_spaceship->scantarget_state = scanning_target->getScannedStateFor(my_spaceship);
             scanning_target = nullptr;
+            scanning_status = false;
         }
         break;
     case CMD_SCAN_CANCEL:
         if (scanning_target && scanning_complexity > 0)
         {
             scanning_target = nullptr;
+            scanning_status = false;
         }
         break;
     case CMD_SET_SYSTEM_POWER_REQUEST:

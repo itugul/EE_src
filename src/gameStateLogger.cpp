@@ -13,6 +13,9 @@
 #include "spaceObjects/spaceship.h"
 #include "spaceObjects/scanProbe.h"
 #include "spaceObjects/missileWeapon.h"
+#include "spaceObjects/beamEffect.h"
+#include "screenComponents/scanningDialog.h"
+
 
 class JSONGenerator
 {
@@ -285,11 +288,19 @@ void GameStateLogger::writeObjectEntry(JSONGenerator& json, P<SpaceObject> obj)
                 if (missile)
                 {
                     json.write("missile_owner_id", missile->owner->getMultiplayerId());
+                    json.write("missile_target_id", missile->target_id);
                 }else{
                     P<Mine> mine = obj;
                     if (mine && mine->owner)
                     {
                         json.write("missile_owner_id", mine->owner->getMultiplayerId());
+                    }else{
+                        P<BeamEffect> beam = obj;
+                        if (beam)
+                        {
+                            json.write("beam_owner_id", beam->sourceId);
+                            json.write("beam_target_id", beam->target_id);
+                        }
                     }
                 }
             }
@@ -505,8 +516,12 @@ void GameStateLogger::writeShipEntry(JSONGenerator& json, P<SpaceShip> ship)
         json.write("reputation_points", p_ship->getReputationPoints());
         JSONGenerator science = json.createDict("science");
         science.write("db_open", p_ship->db_open);
-        if (p_ship->linked_science_probe_id)
-            science.write("science_probe_id", p_ship->linked_science_probe_id);  
+        if (p_ship->linked_science_probe_id > -1)
+            science.write("science_probe_id", p_ship->linked_science_probe_id);
+        if (p_ship->scanning_status)
+            science.write("scan_status", 1);
+        else
+            science.write("scan_status", 0);
         if (p_ship->scantarget_id > -1)
         {
             science.write("scan_target_id", p_ship->scantarget_id);

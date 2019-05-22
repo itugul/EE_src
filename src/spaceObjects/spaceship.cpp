@@ -118,6 +118,7 @@ SpaceShip::SpaceShip(string multiplayerClassName, float multiplayer_significant_
     max_energy_level = 1000;
     scantarget_id = -1;
     scantarget_state = 0;
+    scanning_status = false;
     db_open = 0;
 
     registerMemberReplication(&target_rotation, 1.5);

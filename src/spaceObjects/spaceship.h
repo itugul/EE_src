@@ -166,6 +166,7 @@ public:
     /// MultiplayerObjectID of the scanned object or -1 if there is no scan and the level of the scan performed.
     int32_t scantarget_id;
     int32_t scantarget_state;
+    bool scanning_status;
 
     // Open or not the database.
     int32_t db_open;
