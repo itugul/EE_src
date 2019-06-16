@@ -14,6 +14,7 @@
 #include "spaceObjects/scanProbe.h"
 #include "spaceObjects/missileWeapon.h"
 #include "spaceObjects/beamEffect.h"
+#include "spaceObjects/explosionEffect.h"
 #include "screenComponents/scanningDialog.h"
 
 
@@ -230,7 +231,6 @@ void GameStateLogger::logGameState()
             }
             JSONGenerator entry = json.arrayCreateDict();
             writeObjectEntry(entry, obj);
-
         }
         json.endArray();
         if ((unsigned int)(ptr - log_line_buffer) > sizeof(log_line_buffer) / 2)
@@ -300,6 +300,12 @@ void GameStateLogger::writeObjectEntry(JSONGenerator& json, P<SpaceObject> obj)
                         {
                             json.write("beam_owner_id", beam->sourceId);
                             json.write("beam_target_id", beam->target_id);
+                        }else{
+                            P<ExplosionEffect> expl = obj;
+                            if (expl)
+                            {
+                                json.write("instigator_id", expl->instigator->getMultiplayerId());
+                            }
                         }
                     }
                 }
