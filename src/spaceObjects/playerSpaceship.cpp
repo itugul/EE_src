@@ -1358,7 +1358,7 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
             if (waypoints.size() < 9)
             {
                 waypoints.push_back(position);
-                my_spaceship->waypoints.push_back(position);
+                my_spaceship->waypoint.push_back(position);
             }
         }
         break;
@@ -1369,7 +1369,7 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
             if (index >= 0 && index < int(waypoints.size()))
             {
                 waypoints.erase(waypoints.begin() + index);
-                my_spaceship->waypoints.erase(waypoints.begin() + index);
+                my_spaceship->waypoint.erase(waypoints.begin() + index);
             }
         }
         break;
@@ -1381,7 +1381,7 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
             if (index >= 0 && index < int(waypoints.size()))
             {
                 waypoints[index] = position;
-                my_spaceship->waypoints[index] = position;
+                my_spaceship->waypoint[index] = position;
             }
         }
         break;

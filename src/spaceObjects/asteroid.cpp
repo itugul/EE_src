@@ -77,7 +77,6 @@ void Asteroid::collide(Collisionable* target, float force)
     hit_object->takeDamage(35, info);
 
     P<ExplosionEffect> e = new ExplosionEffect();
-    e->setInstigator(hit_object);
     e->setSize(getRadius());
     e->setPosition(getPosition());
     destroy();

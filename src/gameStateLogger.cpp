@@ -14,7 +14,6 @@
 #include "spaceObjects/scanProbe.h"
 #include "spaceObjects/missileWeapon.h"
 #include "spaceObjects/beamEffect.h"
-#include "spaceObjects/explosionEffect.h"
 #include "screenComponents/scanningDialog.h"
 
 
@@ -231,6 +230,7 @@ void GameStateLogger::logGameState()
             }
             JSONGenerator entry = json.arrayCreateDict();
             writeObjectEntry(entry, obj);
+
         }
         json.endArray();
         if ((unsigned int)(ptr - log_line_buffer) > sizeof(log_line_buffer) / 2)
@@ -300,12 +300,6 @@ void GameStateLogger::writeObjectEntry(JSONGenerator& json, P<SpaceObject> obj)
                         {
                             json.write("beam_owner_id", beam->sourceId);
                             json.write("beam_target_id", beam->target_id);
-                        }else{
-                            P<ExplosionEffect> expl = obj;
-                            if (expl)
-                            {
-                                json.write("instigator_id", expl->instigator->getMultiplayerId());
-                            }
                         }
                     }
                 }
@@ -537,22 +531,17 @@ void GameStateLogger::writeShipEntry(JSONGenerator& json, P<SpaceShip> ship)
         }
     }
 
-    if (ship->waypoints.size() > 0)
+    json.startArray("waypoints");
+    for(int n=0; n < ship->waypoint.size(); n++)
     {
-        json.startArray("waypoints");
-        // for(int n=0; n < int(ship->waypoints.size()); n++)
-        // {
-        //     JSONGenerator waypoint = json.arrayCreateDict();
-        //     if (ship->waypoints[n])
-        //     {
-        //         waypoint.startArray("position");
-        //         waypoint.arrayWrite(ship->waypoints[n][0]);
-        //         waypoint.arrayWrite(ship->waypoints[n][1]);
-        //         waypoint.endArray();
-        //     }
-        // }
-        json.endArray();
+        JSONGenerator waypoints = json.arrayCreateDict();
+        waypoints.write("name", n + 1);
+        waypoints.startArray("position");
+        waypoints.arrayWrite(ship->waypoint[n].x);
+        waypoints.arrayWrite(ship->waypoint[n].y);
+        waypoints.endArray();
     }
+    json.endArray();
 }
 
 void GameStateLogger::writeStationEntry(JSONGenerator& json, P<SpaceStation> station)

@@ -171,7 +171,7 @@ public:
     // Open or not the database.
     int32_t db_open;
 
-    std::vector<sf::Vector2f> waypoints;
+    std::vector<sf::Vector2f> waypoint;
 
     EDockingState docking_state;
     P<SpaceObject> docking_target; //Server only

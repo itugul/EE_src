@@ -148,7 +148,6 @@ public:
 
     EAlertLevel alert_level;
 
-    // A probe that is accessed by a scientist
     int32_t linked_science_probe_id;
 
     PlayerSpaceship();

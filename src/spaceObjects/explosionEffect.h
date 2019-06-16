@@ -14,7 +14,6 @@ class ExplosionEffect : public SpaceObject, public Updatable
     sf::Vector3f particleDirections[particleCount];
     bool on_radar;
 public:
-    P<SpaceObject> instigator;
     ExplosionEffect();
 
 #if FEATURE_3D_RENDERING
@@ -23,7 +22,6 @@ public:
     virtual void drawOnRadar(sf::RenderTarget& window, sf::Vector2f position, float scale, bool longRange);
     virtual void update(float delta);
     
-    void setInstigator(P<SpaceObject> obj) { this->instigator = obj; }
     void setSize(float size) { this->size = size; }
     void setExplosionSound(string sound) { this->explosion_sound = sound; }
     void setOnRadar(bool on_radar) { this->on_radar = on_radar; }
