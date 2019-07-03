@@ -280,12 +280,12 @@ void GameStateLogger::writeObjectEntry(JSONGenerator& json, P<SpaceObject> obj)
             writeStationEntry(json, station);
         }else{
             P<ScanProbe> probe = obj;
-            if (probe)
+            if (probe && probe->owner_id)
             {
                 json.write("probe_owner_id", probe->owner_id);
             }else{
                 P<MissileWeapon> missile = obj;
-                if (missile)
+                if (missile && missile->owner && missile->target_id)
                 {
                     json.write("missile_owner_id", missile->owner->getMultiplayerId());
                     json.write("missile_target_id", missile->target_id);
@@ -296,7 +296,7 @@ void GameStateLogger::writeObjectEntry(JSONGenerator& json, P<SpaceObject> obj)
                         json.write("missile_owner_id", mine->owner->getMultiplayerId());
                     }else{
                         P<BeamEffect> beam = obj;
-                        if (beam)
+                        if (beam && beam->sourceId && beam->target_id)
                         {
                             json.write("beam_owner_id", beam->sourceId);
                             json.write("beam_target_id", beam->target_id);
