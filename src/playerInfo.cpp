@@ -119,7 +119,7 @@ void PlayerInfo::spawnUI()
     }else{
 
         CrewStationScreen* screen = new CrewStationScreen();
-        
+
         //Crew 6/5
         if (crew_position[helmsOfficer])
             screen->addStationTab(new HelmsScreen(screen), helmsOfficer, getCrewPositionName(helmsOfficer), getCrewPositionIcon(helmsOfficer));

@@ -22,7 +22,7 @@ public:
     CrewStationScreen();
     void addStationTab(GuiElement* element, ECrewPosition position, string name, string icon);
     void finishCreation();
-    
+
     virtual void update(float delta) override;
     virtual void onHotkey(const HotkeyResult& key) override;
     virtual void onKey(sf::Event::KeyEvent key, int unicode) override;
@@ -34,7 +34,7 @@ private:
     GuiPanel* message_frame;
     GuiScrollText* message_text;
     GuiButton* message_close_button;
-    
+
     struct CrewTabInfo {
         GuiToggleButton* button;
         GuiElement* element;

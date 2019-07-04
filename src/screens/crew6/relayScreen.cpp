@@ -99,14 +99,14 @@ RelayScreen::RelayScreen(GuiContainer* owner)
     (new GuiOpenCommsButton(option_buttons, "OPEN_COMMS_BUTTON", &targets))->setSize(GuiElement::GuiSizeMax, 50);
 
     // Hack target
-    hack_target_button = new GuiButton(option_buttons, "HACK_TARGET", "Start hacking", [this](){
-        P<SpaceObject> target = targets.get();
-        if (my_spaceship && target && target->canBeHackedBy(my_spaceship))
-        {
-            hacking_dialog->open(target);
-        }
-    });
-    hack_target_button->setSize(GuiElement::GuiSizeMax, 50);
+    // hack_target_button = new GuiButton(option_buttons, "HACK_TARGET", "Start hacking", [this](){
+    //     P<SpaceObject> target = targets.get();
+    //     if (my_spaceship && target && target->canBeHackedBy(my_spaceship))
+    //     {
+    //         hacking_dialog->open(target);
+    //     }
+    // });
+    // hack_target_button->setSize(GuiElement::GuiSizeMax, 50);
 
     // Link probe to science button.
     link_to_science_button = new GuiToggleButton(option_buttons, "LINK_TO_SCIENCE", "Link to Science", [this](bool value){
@@ -254,14 +254,14 @@ void RelayScreen::onDraw(sf::RenderTarget& window)
             link_to_science_button->setValue(false);
             link_to_science_button->disable();
         }
-        if (my_spaceship && obj->canBeHackedBy(my_spaceship))
-        {
-            hack_target_button->enable();
-        }else{
-            hack_target_button->disable();
-        }
+        // if (my_spaceship && obj->canBeHackedBy(my_spaceship))
+        // {
+        //     hack_target_button->enable();
+        // }else{
+        //     hack_target_button->disable();
+        // }
     }else{
-        hack_target_button->disable();
+        // hack_target_button->disable();
         link_to_science_button->disable();
         link_to_science_button->setValue(false);
         info_callsign->setValue("-");

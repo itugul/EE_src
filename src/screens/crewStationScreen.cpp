@@ -106,6 +106,17 @@ void CrewStationScreen::addStationTab(GuiElement* element, ECrewPosition positio
 
 void CrewStationScreen::finishCreation()
 {
+    CrewTabInfo info;
+
+    info.button = new GuiToggleButton(button_strip, "CONNECT", "Exite", [this](bool value) {
+        destroy();
+        soundManager->stopMusic();
+        returnToShipSelection();
+    });
+    info.button->setIcon("");
+    info.button->setPosition(0, tabs.size() * 50, ATopLeft)->setSize(GuiElement::GuiSizeMax, 50);
+    tabs.push_back(info);
+
     select_station_button->moveToFront();
     button_strip->moveToFront();
     button_strip->setSize(button_strip->getSize().x, 50 * tabs.size());
@@ -115,9 +126,6 @@ void CrewStationScreen::finishCreation()
     new GuiIndicatorOverlays(this);
     new GuiNoiseOverlay(this);
     new GuiShipDestroyedPopup(this);
-
-    if (tabs.size() < 2)
-        select_station_button->hide();
 
     keyboard_help->moveToFront();
 }

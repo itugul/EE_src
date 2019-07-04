@@ -594,6 +594,8 @@ void GuiRadarView::drawObjects(sf::RenderTarget& window_normal, sf::RenderTarget
     {
         sf::Vector2f object_position_on_screen = radar_screen_center + (my_spaceship->getPosition() - view_position) * scale;
         my_spaceship->drawOnRadar(window_normal, object_position_on_screen, scale, long_range);
+        if (show_callsigns && my_spaceship->getCallSign() != "")
+            drawText(window_normal, sf::FloatRect(object_position_on_screen.x, object_position_on_screen.y - 23, 0, 0), my_spaceship->getCallSign(), ACenter, 15, bold_font);
     }
 }
 

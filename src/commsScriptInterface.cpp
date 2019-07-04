@@ -1,6 +1,8 @@
 #include "commsScriptInterface.h"
 #include "spaceObjects/cpuShip.h"
 #include "spaceObjects/playerSpaceship.h"
+#include "languageManager.h"
+
 static CommsScriptInterface* comms_script_interface = NULL;
 
 static int setCommsMessage(lua_State* L)
@@ -82,7 +84,7 @@ void CommsScriptInterface::commChannelMessage(int32_t message_id)
 void CommsScriptInterface::setCommsMessage(string message)
 {
     has_message = true;
-    ship->setCommsMessage(message);
+    ship->setCommsMessage(LanguageManager::get(message));
 }
 
 void CommsScriptInterface::addCommsReply(string message, ScriptSimpleCallback callback)
